@@ -1,0 +1,33 @@
+import java.sql.*;
+
+public class UpdateFinancialData {
+
+    public static void update(int year, double profit,
+            double assets, double equity,
+            double currentAssets, double currentLiabilities) {
+
+        try {
+            Connection con = DBConnection.connect();
+
+            String sql = "UPDATE financial_data SET net_profit=?, total_assets=?, shareholders_equity=?, current_assets=?, current_liabilities=? WHERE year=?";
+
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setDouble(1, profit);
+            ps.setDouble(2, assets);
+            ps.setDouble(3, equity);
+            ps.setDouble(4, currentAssets);
+            ps.setDouble(5, currentLiabilities);
+            ps.setInt(6, year);
+
+            ps.executeUpdate();
+
+            System.out.println("Data Updated Successfully");
+
+            con.close();
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+}
